@@ -25,4 +25,23 @@ public class Admissions {
         if (app.local) score += 0.03;              // local preference
         return Math.min(score, 1.0);               // cap score at 1.0
     }
+
+    // MY CUSTOM MODEL
+    public static double myScore(Applicant app) {
+        double score = 0.0;
+        
+        score += (app.gpa / 4.0) * 0.35;      // GPA weight (currently 35%)
+        score += (app.test / 1600.0) * 0.30;  // Test score weight (currently 25%)
+        score += app.extra * 0.10;             // Extracurriculars weight (currently 15%)
+        score += app.essay * 0.10;             // Essay quality weight (currently 15%)
+        score += app.rec * 0.15;               // Recommendation weight (currently 10%)
+        
+        if (app.income < 60000) score += 0.05;     // low-income consideration
+
+        if (app.firstGen) score += 0.05;           // first-generation consideration
+
+        if (app.disability) score += 0.03;         // disability consideration
+                
+        return Math.min(score, 1.0);  // cap score at 1.0
+    }
 }

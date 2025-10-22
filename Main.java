@@ -1,8 +1,11 @@
 // Main.java
 // Reads CSV data and prints admissions results.
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -79,15 +82,20 @@ public class Main {
         double cutoff = 0.82; // stricter cutoff → some admitted, some rejected
 
         System.out.println("=== Admissions Results ===");
+        System.out.println("Cutoff score: " + cutoff);
+        System.out.println();
+        
         for (Applicant app : applicants) {
             double blind = Admissions.blindScore(app);
             double aware = Admissions.awareScore(app);
+            double my = Admissions.myScore(app);
 
             String blindDecision = (blind >= cutoff) ? "Admitted" : "Rejected";
             String awareDecision = (aware >= cutoff) ? "Admitted" : "Rejected";
+            String myDecision = (my >= cutoff) ? "Admitted" : "Rejected";
 
-            System.out.printf("%-15s | Blind: %.2f (%s) | Aware: %.2f (%s)%n",
-                    app.name, blind, blindDecision, aware, awareDecision);
+            System.out.printf("%-15s | Blind: %.2f (%s) | Aware: %.2f (%s) | My Model: %.2f (%s)%n",
+                    app.name, blind, blindDecision, aware, awareDecision, my, myDecision);
         }
     }
 }
